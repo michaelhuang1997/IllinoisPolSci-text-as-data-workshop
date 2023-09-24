@@ -1,1 +1,1 @@
-# text-as-data-workshop-IllinoisPolSci
+# IllinoisPolSci-text-as-data-workshop
