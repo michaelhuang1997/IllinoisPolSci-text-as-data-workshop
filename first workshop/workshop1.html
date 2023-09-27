@@ -456,7 +456,68 @@ remark, the crisis at which we are arrived may with propriety be regarded as the
 ---
 # rvest
 - One of the most popular webscraping R package is *rvest* that is used to parse HTML elements (reason why we need to be familiar with structured texts in the first place). 
+- [rvest github](https://github.com/tidyverse/rvest) for source code. 
+- [SelectorGadget](https://rvest.tidyverse.org/articles/selectorgadget.html): a JavaScript bookmarklet that allows you to interactively figure out what css selector you need to extract desired components from a page. 
 
+---
+# rvest
+
+```r
+# installation 
+install.packages(&quot;tidyverse&quot;)
+install.packages(&quot;rvest&quot;)
+
+# usage
+library(rvest)
+library(tidyverse)
+
+data = read_html(&quot;URL&quot;)
+title = html_elements(x=data, css=&quot;HTML element&quot;) %&gt;% #select a particular HTML element using css selector
+    html_text2() # extract text 
+```
+---
+# rvest
+
+- [Example](https://www.insaf.pk/blog/there-something-rotten-state-pakistan)
+
+```r
+url &lt;- (&quot;https://www.insaf.pk/blog/there-something-rotten-state-pakistan&quot;)
+df &lt;- read_html(url)
+title &lt;- html_elements(x=df, css=&quot;.pi-has-short-border&quot;) %&gt;% # retrieve title
+    html_text2()
+title
+```
+
+```
+## [1] &quot;There is something rotten in the state of Pakistan.&quot;
+```
+
+---
+# rvest
+
+- Exercise1: extract the title and main text of a webpage of your choice
+- Exercise2: write a R function to extract the title and main text of a webpage of your choice at once
+
+---
+# rvest
+- Exercise1: extract the title and main text of a webpage of your choice
+- Exercise2: write a R function to extract the title and main text of a webpage of your choice at once
+
+```r
+scrape_doc &lt;- function(url){
+  df &lt;- read_html(url)
+  title &lt;- html_elements(x=df, css=&quot;.pi-has-short-border&quot;) %&gt;% # retrieve title
+    html_text2()
+  text &lt;- html_elements(x = df, css = &quot;.field-label-hidden&quot;) %&gt;% # retrieve text
+  html_text2() 
+  text &lt;- text[2] # get rid of an empty space that is embedded in the css tag 
+  url_data &lt;- tibble(
+    id=url,
+    title=title,
+    text=text
+  )
+}
+```
 
 
 
