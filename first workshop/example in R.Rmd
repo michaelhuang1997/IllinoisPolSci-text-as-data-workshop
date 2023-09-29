@@ -1,0 +1,43 @@
+---
+title: "testing"
+author: "Michael Huang"
+date: "2023-09-29"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(rvest)
+```
+
+```{r}
+scrape_doc <- function(url){
+  df <- read_html(url)
+  title <- html_elements(x=df, css=".pi-has-short-border") %>% # retrieve title
+    html_text2()
+  text <- html_elements(x = df, css = ".field-label-hidden") %>% # retrieve text
+  html_text2() 
+  text <- text[2] # get rid of an empty space that is embedded in the css tag 
+  url_data <- tibble(
+    id=url,
+    title=title,
+    text=text
+  )
+  url_data
+}
+```
+
+```{r}
+url <- "https://www.insaf.pk/blog/there-something-rotten-state-pakistan"
+```
+
+```{r}
+scrape_doc(url)
+```
+
+
+
