@@ -437,6 +437,34 @@ remark, the crisis at which we are arrived may with propriety be regarded as the
   - What if multi-hierarchically structured texts? More an issue for digital humanists, less for social scientists. 
 
 ---
+# Structured texts
+- Example:
+
+```xml
+XML version of Othello
+&lt;sp who=&quot;Iago&quot;&gt;
+&lt;speaker&gt;Iago&lt;/speaker&gt;
+&lt;l xml:id=&quot;sha-oth101008&quot; n=&quot;8&quot;&gt;
+&lt;w lemma=&quot;despise&quot; ana=&quot;#vvb&quot; xml:id=&quot;sha-oth10100801&quot;&gt;Despise&lt;/w&gt;
+&lt;c&gt; &lt;/c&gt;
+&lt;w lemma=&quot;i&quot; ana=&quot;#pno11&quot; xml:id=&quot;sha-oth10100802&quot;&gt;me&lt;/w&gt;
+&lt;pc xml:id=&quot;sha-oth10100803&quot;&gt;,&lt;/pc&gt;
+&lt;c&gt; &lt;/c&gt;
+&lt;w lemma=&quot;if&quot; ana=&quot;#cs&quot; xml:id=&quot;sha-oth10100804&quot;&gt;if&lt;/w&gt;
+&lt;c&gt; &lt;/c&gt;
+&lt;w lemma=&quot;i&quot; ana=&quot;#pns11&quot; xml:id=&quot;sha-oth10100805&quot;&gt;I&lt;/w&gt;
+&lt;c&gt; &lt;/c&gt;
+&lt;w lemma=&quot;do&quot; ana=&quot;#vdb&quot; xml:id=&quot;sha-oth10100806&quot;&gt;do&lt;/w&gt;
+&lt;c&gt; &lt;/c&gt;
+&lt;w lemma=&quot;not&quot; ana=&quot;#xx&quot; xml:id=&quot;sha-oth10100807&quot;&gt;not&lt;/w&gt;
+&lt;pc xml:id=&quot;sha-oth10100808&quot; unit=&quot;sentence&quot;&gt;.&lt;/pc&gt;
+&lt;c&gt; &lt;/c&gt;
+&lt;w lemma=&quot;three&quot; ana=&quot;#crd&quot; xml:id=&quot;sha-oth10100809&quot;&gt;Three&lt;/w&gt;
+```
+- Can we extract all speeches by Roderigo?
+
+
+---
 
 # What is webscraping?
 - You scrape texts from the web. 
@@ -518,6 +546,10 @@ scrape_doc &lt;- function(url){
   )
 }
 ```
+
+
+
+
 
 
 
