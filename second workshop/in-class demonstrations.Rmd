@@ -1,0 +1,50 @@
+---
+title: "In-Class Demonstrations"
+author: "Michael Huang"
+date: "2023-10-08"
+output:
+  xaringan::moon_reader:
+    self_contained: yes
+    nature:
+      highlightLines: true
+      countIncrementalSlides: true
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+
+# Title 1
+
+## Title 2
+
+## Title 3
+
+*italicize*
+
+**bold**
+
+---
+
+- point 1
+- point 2
+- point 3
+  - subpoint 1
+  - subpoint 2
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
