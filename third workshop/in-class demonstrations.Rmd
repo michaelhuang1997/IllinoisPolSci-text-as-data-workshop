@@ -1,0 +1,90 @@
+---
+title: "in-class demonstrations"
+author: "Michael Huang"
+date: "2023-10-21"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(RedditExtractoR)
+library(jsonlite)
+```
+
+########################################################
+#########Reddit#####################################
+#####################################################
+
+```{r}
+top_pak_urls <- find_thread_urls(subreddit="pakistan", sort_by="top")
+```
+
+
+```{r}
+head(top_pak_urls)
+```
+
+
+```{r}
+pak_urls <- find_thread_urls(keywords="pakistan")
+```
+
+
+```{r}
+threads_contents <- get_thread_content(top_pak_urls$url[1])
+```
+
+```{r}
+find_subreddits("pakistan")
+```
+```{r}
+get_user_content("Scared_Divide_9843")
+```
+
+
+###################################################
+##############NYT################################
+##################################################
+
+```{r}
+keyword <- "Pakistan" 
+begin_date <- "20220101"
+end_date <- "20221118"
+api <- "euj30hiHNF6YS4yN2Gjw2y5f5L3dkc1W"
+```
+
+```{r get base url}
+url <- paste0("http://api.nytimes.com/svc/search/v2/articlesearch.json?q=",keyword,
+                  "&begin_date=",begin_date,"&end_date=",end_date,
+                  "&facet_filter=true&api-key=",api, sep="")
+```
+
+```{r}
+datalist = vector("list", length = 8) # create an empty vector 
+for(i in 0:7){  
+  search <- fromJSON(paste0(url, "&page=", i), flatten = TRUE) %>% data.frame() 
+  message("Page ", i) 
+  datalist[[i+1]] <- search 
+}
+data = bind_rows(datalist) # bind list into a dataframe 
+```
+
+
+```{r}
+fromJSON(url, flatten = TRUE)
+
+```
+
+```{r}
+pak_nyt <- data %>% 
+  select(response.docs.abstract, response.docs.web_url,response.docs.lead_paragraph,response.docs.word_count,response.docs.section_name,response.docs.headline.print_headline) %>% # select relevant variables
+  rename("abstract"="response.docs.abstract","url"="response.docs.web_url","lead_paragraph"="response.docs.lead_paragraph","section_name"="response.docs.section_name","word_count"="response.docs.word_count","print_headline"="response.docs.headline.print_headline") # rename the variables
+head(pak_nyt)
+```
+
+
+
