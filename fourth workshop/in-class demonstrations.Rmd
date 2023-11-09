@@ -1,0 +1,74 @@
+---
+title: "in-class demonstrations"
+author: "Michael Huang"
+date: "2023-11-06"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = FALSE, warning = FALSE)
+```
+
+```{r}
+library(topicmodels)
+library(scriptuRs)
+library(tidyverse)
+library(tidytext)
+library(textstem)
+```
+
+```{r}
+mormon <- scriptuRs::book_of_mormon
+```
+
+```{r}
+mormon
+```
+
+## Clean data
+```{r}
+cleaned_df <- mormon %>% 
+  unnest_tokens(word, text) %>% # convert into a tidytext format 
+  filter(str_detect(word,"[a-z]"), !word%in%stop_words$word) %>% # filter out non-word characters and stopwords 
+  map_df(lemmatize_words) # lemmatize
+```
+
+
+```{r}
+view(cleaned_df)
+```
+
+
+```{r}
+mormon_dtm <- cleaned_df %>%
+  unite(document, book_title) %>%
+  count(document, word) %>%
+  cast_dtm(document, word, n)
+```
+
+
+```{r}
+mormon_lda <- LDA(mormon_dtm, k = 5, control = list(seed = 2016)) # assign 8 topics 
+```
+
+```{r}
+mormon_topics <- tidy(mormon_lda, matrix = "beta") # extract the per-topic-per-word probabilities, beta
+
+top_terms <- mormon_topics %>%
+  group_by(topic) %>%
+  slice_max(beta, n = 10) %>% # find the 10 words that are most common within each topic
+  ungroup() %>%
+  arrange(topic, -beta) # arrange the words in each topic by the descending order of beta scores
+
+top_terms %>%
+  mutate(term = reorder_within(term, beta, topic)) %>%  # reorder words based on their beta scores within each topic
+  ggplot(aes(beta, term, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ topic, scales = "free") +
+  scale_y_reordered() +
+  labs(
+    title = "LDA Topic Modeling of The Book of Mormons"
+  )
+```
+
+
